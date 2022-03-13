@@ -26,6 +26,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string')]
     private $password;
 
+    #[ORM\Column(type: 'string', length: 30)]
+    private $full_name;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $profile_image;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -94,5 +100,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->full_name;
+    }
+
+    public function setFullName(string $full_name): self
+    {
+        $this->full_name = $full_name;
+
+        return $this;
+    }
+
+    public function getProfileImage(): ?string
+    {
+        return $this->profile_image;
+    }
+
+    public function setProfileImage(?string $profile_image): self
+    {
+        $this->profile_image = $profile_image;
+
+        return $this;
     }
 }
