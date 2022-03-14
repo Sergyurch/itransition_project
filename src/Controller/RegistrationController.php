@@ -34,8 +34,10 @@ class RegistrationController extends AbstractController
             $profileImageFile = $form->get('profile_image')->getData();
 
             if ($profileImageFile) {
-                $newFilename = $fileUploader->upload($profileImageFile, 'profile');
+                $newFilename = $fileUploader->uploadImageToCloudinary($profileImageFile, 'profile');
                 $user->setProfileImage($newFilename);
+            } else {
+                $user->setProfileImage('https://res.cloudinary.com/itransition-project/image/upload/v1647254564/profile/default_js2m6l.jpg');
             }
 
             $entityManager->persist($user);
