@@ -1,19 +1,81 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+        <title>{% block title %}Mini Blog{% endblock %}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+        <link href="https://fonts.googleapis.com/css?family=Muli:300,400,700|Playfair+Display:400,700,900" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    <body data-aos-easing="slide" data-aos-duration="800" data-aos-delay="0">
+        <div class="site-wrap">
+            <div class="site-mobile-menu">
+                <div class="site-mobile-menu-header">
+                    <div class="site-mobile-menu-close mt-3">
+                        <span class="icon-close2 js-menu-toggle"></span>
+                    </div>
+                </div>
+                <div class="site-mobile-menu-body"></div>
+            </div>
+            <header class="site-navbar" role="banner">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-12 search-form-wrap js-search-form">
+                            <form action="#">
+                                <input type="text" id="s" class="form-control" placeholder="Search...">
+                                <button class="search-btn" type="submit"><span class="icon-search"></span></button>
+                            </form>
+                        </div>
+                        <div class="col-4 site-logo">
+                            <a href="/" class="text-black h2 mb-0">Блог</a>
+                        </div>
+                        <div class="col-8 text-right">
+                            <nav class="site-navigation" role="navigation">
+                                <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block mb-0">
+                                    <li><a href="category.html">Главная</a></li>
+                                    <li><a href="category.html">Фильмы</a></li>
+                                    <li><a href="category.html">Книги</a></li>
+                                    <li><a href="category.html">Игры</a></li>
+                                    <li class="d-lg-inline-block"><a href="#" class="js-search-toggle"><span class="icon-search"></span></a></li>
+                                </ul>
+                            </nav>
+                            <a href="#" class="site-menu-toggle js-menu-toggle text-black d-inline-block d-lg-none"><span class="icon-menu h3"></span></a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            {% block body %}{% endblock %}
+
+            <div class="site-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p>
+
+                            Copyright &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="{{ asset('bundles/acme/js/jquery-3.3.1.min.js') }}"></script>
+        <script src="{{ asset('bundles/acme/js/jquery-migrate-3.0.1.min.js+jquery-ui.js+popper.min.js.pagespeed.jc.JdvTOhp_a4.js') }}"></script>
+        <script>eval(mod_pagespeed_3UHT1mdFHo);</script>
+        <script>eval(mod_pagespeed_eVrI9UNvs7);</script>
+        <script>eval(mod_pagespeed_ibR0WM8rmG);</script>
+        <script src="{{ asset('bundles/acme/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('bundles/acme/js/owl.carousel.min.js+jquery.stellar.min.js+jquery.countdown.min.js+jquery.magnific-popup.min.js.pagespeed.jc.3S4ZYYlTLk.js') }}"></script>
+        <script>eval(mod_pagespeed_hp4TRGNFGr);</script>
+        <script>eval(mod_pagespeed_xafn9tfifR);</script>
+        <script>eval(mod_pagespeed_r3CDYPgZa6);</script>
+        <script>eval(mod_pagespeed__yexyprBvh);</script>
+        <script src="{{ asset('bundles/acme/js/bootstrap-datepicker.min.js+aos.js+main.js.pagespeed.jc.z6gPHoOd2B.js') }}"></script>
+        <script>eval(mod_pagespeed__EwcE7_1mp);</script>
+        <script>eval(mod_pagespeed_XfTLd8v2o_);</script>
+        <script>eval(mod_pagespeed_t_McWJOk6o);</script>
     </body>
 </html>

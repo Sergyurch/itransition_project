@@ -22,7 +22,7 @@ class ArticlesController extends AbstractController
         $articles = $this->articleRepository->findAll();
         // dd($articles);
 
-        return $this->render('articles/index2.html.twig', [
+        return $this->render('articles/index.html.twig', [
             'controller_name' => 'ArticlesController',
             'articles' => $articles
         ]);
