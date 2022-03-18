@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Мои обзоры{% endblock %}
+
+{% block body %}
+    <div class="site-section bg-light min-vh-80">
+        <div class="container mb-5">
+            <h2 class="text-center mb-5">Мои обзоры</h2>
+            <div class="mb-3">
+                <a href="{{ path('app_article_create') }}" class="btn btn-primary">Создать обзор</a>
+            </div>
+            <div class="mb-3">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">№</th>
+                            <th scope="col">Название обзора</th>
+                            <th scope="col">Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key, article in articles %}
+                            <tr>
+                                <th scope="row" class="align-middle">{{ key + 1 }}</th>
+                                <td class="align-middle">{{ article.title }}</td>
+                                <td>
+                                    <a href="{{ path('app_article_edit', {'id': article.id}) }}" class="btn btn-warning">Редактировать</a>
+                                    {# <a href="{{ path('app_article_preview', {'id': article.id}) }}" class="btn btn-success">Просмотр</a> #}
+                                    <a href="{{ path('app_article_delete', {'id': article.id}) }}" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+                                </td>
+                            </tr>    
+                        {% endfor %}
+                        
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

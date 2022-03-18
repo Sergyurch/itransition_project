@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Редактирование личных данных{% endblock %}
+
+{% block body %}
+<div class="site-section bg-light">
+    <div class="container">
+        <h1 class="text-center h2 mb-5">Редактирование личных данных</h1>
+
+        {{ form_start(editForm) }}
+            <div class="row justify-content-center">
+                {{ form_row(editForm.full_name, {
+                    label: 'Полное имя',
+                    attr: {class: 'form-control'}
+                }) }}
+            </div>
+            <div class="row justify-content-center">
+                {{ form_row(editForm.plainPassword, {
+                    label: 'Пароль',
+                    required: false,
+                    attr: {class: 'form-control'}
+                }) }}
+            </div>
+            <div class="row justify-content-center">
+                <div class="mb-3 col-md-7">
+                    {{ form_row(editForm.profile_image, {
+                        label: 'Загрузите или перетяните файл'
+                    }) }}
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="mb-3 col-md-7 text-center">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </div>
+        {{ form_end(editForm) }}
+    </div>
+</div>
+{% endblock %}

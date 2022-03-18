@@ -18,6 +18,15 @@ class FileUploader
         $this->profileImageTargetDirectory = $profileImageTargetDirectory;
         $this->imageTargetDirectory = $imageTargetDirectory;
         $this->slugger = $slugger;
+
+        Configuration::instance([
+            'cloud' => [
+                'cloud_name' => 'itransition-project', 
+                'api_key' => '254465488937493', 
+                'api_secret' => 'VKNdrXAmXgfunixxEDHWDzWKEBw'
+            ]
+        ]);
+
     }
 
     public function upload(UploadedFile $file, $fileSource)
@@ -36,14 +45,6 @@ class FileUploader
 
     public function uploadImageToCloudinary(UploadedFile $file, $fileSource)
     {
-        Configuration::instance([
-            'cloud' => [
-                'cloud_name' => 'itransition-project', 
-                'api_key' => '254465488937493', 
-                'api_secret' => 'VKNdrXAmXgfunixxEDHWDzWKEBw'
-            ]
-        ]);
-
         $fileName = $file->getRealPath();
         
         $imageUploaded = (new UploadApi())->upload($fileName, [
@@ -52,5 +53,10 @@ class FileUploader
         ]);
 
         return $imageUploaded['secure_url'];
+    }
+
+    public function destroyImageCloudinary($cloudPath)
+    {
+        return (new UploadApi())->destroy( basename(dirname($cloudPath)) . '/' . pathinfo($cloudPath, PATHINFO_FILENAME), ["invalidate" => true] );
     }
 }

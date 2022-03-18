@@ -26,15 +26,21 @@
                 }) }}
             </div>
             <div class="row justify-content-center">
-                {{ form_row(registrationForm.profile_image, {
-                    label: 'Ваше фото'
+                <div class="mb-3 col-md-7">
+                    {{ form_row(registrationForm.profile_image, {
+                        label: 'Загрузите или перетяните файл'
+                    }) }}
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                {{ form_row(registrationForm.agreeTerms, {
+                    label: 'С условиями согласен'
                 }) }}
             </div>
             <div class="row justify-content-center">
-                {{ form_row(registrationForm.agreeTerms) }}
-            </div>
-            <div class="row justify-content-center">
-                <button type="submit" class="btn btn-primary">Регистрация</button>
+                <div class="mb-3 col-md-7 text-center">
+                    <button type="submit" class="btn btn-primary">Регистрация</button>
+                </div>
             </div>
         {{ form_end(registrationForm) }}
     </div>

@@ -28,6 +28,13 @@ class Article
     #[ORM\Column(type: 'date')]
     private $created_at;
 
+    #[ORM\Column(type: 'integer')]
+    private $author_rating;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'articles')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $author;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +96,30 @@ class Article
     public function setCreatedAt(\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getAuthorRating(): ?int
+    {
+        return $this->author_rating;
+    }
+
+    public function setAuthorRating(int $author_rating): self
+    {
+        $this->author_rating = $author_rating;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

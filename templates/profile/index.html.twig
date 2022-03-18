@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block body %}
+    <div class="site-section bg-light">
+        <div class="container mb-5">
+            <h2 class="text-center mb-5">Мои данные</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <img src="{{ user.getProfileImage() }}" class="img-fluid rounded">
+                </div>
+                <div class="col-md-6">
+                    <p>Полное имя: {{ user.getFullName() }}</p>
+                    <p>Почта: {{ user.getEmail() }}</p>
+                    <p>Мои роли: {{ user.getRoles()|join(', ') }}</p>
+                    <div class="mb-3">
+                        <a href="{{ path('app_profile_edit', {'id': user.getId()}) }}" class="btn btn-primary">Изменить данные</a>
+                    </div>
+                    <div class="mb-3">
+                        <a href="{{ path('app_profile_articles', {'id': user.getId()}) }}" class="btn btn-primary">Мои обзоры</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

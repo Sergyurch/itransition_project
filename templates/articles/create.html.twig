@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Создание обзора{% endblock %}
+
+{% block body %}
+    <div class="site-section bg-light">
+        <div class="container">
+            <h1 class="text-center h2 mb-5">Создание нового обзора</h1>
+
+            {{ form_start(articleCreateForm) }}
+                <div class="row justify-content-center">
+                    {{ form_row(articleCreateForm.title, {
+                        label: 'Название обзора',
+                        attr: {class: 'form-control'}
+                    }) }}
+                </div>
+                 <div class="row justify-content-center">
+                    {{ form_row(articleCreateForm.text, {
+                        label: 'Текст обзора',
+                        attr: {
+                            class: 'form-control',
+                            rows: 10
+                        }
+                    }) }}
+                </div>
+                <div class="row justify-content-center">
+                    {{ form_row(articleCreateForm.category, {
+                        label: 'Категория',
+                        attr: {class: 'form-control'}
+                    }) }}
+                </div>
+                <div class="row justify-content-center">
+                    {{ form_row(articleCreateForm.author_rating, {
+                        label: 'Рейтинг',
+                        attr: {class: 'form-control'}
+                    }) }}
+                </div>
+                <div class="row justify-content-center">
+                    <div class="mb-3 col-md-7">
+                        {{ form_row(articleCreateForm.image_path, {
+                            label: 'Загрузите или перетяните файл'
+                        }) }}
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="mb-3 col-md-7 text-center">
+                        <button type="submit" class="btn btn-primary">Создать</button>
+                    </div>
+                </div>
+            {{ form_end(articleCreateForm) }}
+        </div>
+    </div>
+{% endblock %}
