@@ -25,9 +25,9 @@ class ProfileController extends AbstractController
     public function index(int $id): Response
     {
         
-        if ( $id == $this->getUser()->getId() ) {
+        if ( $id == $this->getUser()->getId() || $this->isGranted('ROLE_ADMIN') ) {
             return $this->render('profile/index.html.twig', [
-                'user' => $this->getUser()
+                'user' => $this->userRepository->find($id) //$this->getUser()
             ]);
         } else {
             return $this->redirectToRoute('app_login');
@@ -39,7 +39,7 @@ class ProfileController extends AbstractController
     public function edit(int $id, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         
-        if ( $id == $this->getUser()->getId() ) {
+        if ( $id == $this->getUser()->getId() || $this->isGranted('ROLE_ADMIN') ) {
             $user = $this->userRepository->find($id);
             $form = $this->createForm(EditProfileFormType::class, $user);
             $form->handleRequest($request);
@@ -71,7 +71,8 @@ class ProfileController extends AbstractController
             }
 
             return $this->render('profile/edit.html.twig', [
-                'editForm' => $form->createView()
+                'editForm' => $form->createView(),
+                'user' => $user
             ]);
         } else {
             return $this->redirectToRoute('app_login');
@@ -79,13 +80,15 @@ class ProfileController extends AbstractController
 
     }
 
-    #[Route('/profile/{id}/articles', name: 'app_profile_articles')]
+    #[Route('/profile/articles/{id}', name: 'app_profile_articles')]
     public function showArticles(int $id): Response
     {
-        
-        if ( $id == $this->getUser()->getId() ) {
+        $user = $this->userRepository->find($id);
+
+        if ( $id == $this->getUser()->getId() || $this->isGranted('ROLE_ADMIN') ) {
             return $this->render('profile/articles.html.twig', [
-                'articles' => $this->getUser()->getArticles()
+                'articles' => $user->getArticles(),
+                'user' => $user
             ]);
         } else {
             return $this->redirectToRoute('app_login');

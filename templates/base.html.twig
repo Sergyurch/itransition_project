@@ -43,6 +43,9 @@
                                     {% if app.user %}
                                         <li><a href="{{ path('app_profile', {'id': app.user.getId()}) }}">Личный кабинет</a></li>
                                     {% endif %}
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <li><a href="{{ path('admin') }}">Админка</a></li>
+                                    {% endif %}
                                     <li><a href="{{ app.user ? path('app_logout') : path('app_login') }}">{{ app.user ? 'Выйти' : 'Войти' }}</a></li>
                                     <li class="d-lg-inline-block"><a href="#" class="js-search-toggle"><span class="icon-search"></span></a></li>
                                 </ul>

@@ -5,8 +5,12 @@
 {% block body %}
 <div class="site-section bg-light">
     <div class="container">
-        <h1 class="text-center h2 mb-5">Редактирование личных данных</h1>
-
+        {% if is_granted('ROLE_ADMIN') %}
+            <h2 class="text-center mb-5">Редактирование личных данных юзера {{ user.getFullName() }}</h2>
+        {% else %}
+            <h1 class="text-center h2 mb-5">Редактирование личных данных</h1>
+        {% endif %}
+        
         {{ form_start(editForm) }}
             <div class="row justify-content-center">
                 {{ form_row(editForm.full_name, {

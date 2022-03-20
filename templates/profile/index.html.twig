@@ -5,7 +5,11 @@
 {% block body %}
     <div class="site-section bg-light">
         <div class="container mb-5">
-            <h2 class="text-center mb-5">Мои данные</h2>
+            {% if is_granted('ROLE_ADMIN') %}
+                <h2 class="text-center mb-5">Вы находитесь в кабинете юзера {{ user.getFullName() }}</h2>
+            {% else %}
+                <h2 class="text-center mb-5">Мои данные</h2>
+            {% endif %}
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <img src="{{ user.getProfileImage() }}" class="img-fluid rounded">
