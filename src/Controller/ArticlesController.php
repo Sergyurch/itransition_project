@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\FileUploader;
+use Knp\Component\Pager\PaginatorInterface;
 
 class ArticlesController extends AbstractController
 {
@@ -26,12 +27,20 @@ class ArticlesController extends AbstractController
     }
 
     #[Route('/', methods: ['GET'], name: 'app_articles')]
-    public function index(): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
-        $articles = $this->articleRepository->findBy([], ['created_at' => 'DESC']);
+        $allArticlesQuery = $this->articleRepository->createQueryBuilder('a')->orderBy('a.created_at', 'DESC')->getQuery();
+        $bestArticles = $this->articleRepository->getBestArticles();
+
+        $articles = $paginator->paginate(
+            $allArticlesQuery,
+            $request->query->getInt('page', 1),
+            6
+        );
         
         return $this->render('articles/index.html.twig', [
-            'articles' => $articles
+            'articles' => $articles,
+            'bestArticles' => $bestArticles
         ]);
     }
 
@@ -39,9 +48,29 @@ class ArticlesController extends AbstractController
     public function show($id): Response
     {
         $article = $this->articleRepository->find($id);
+        $category = ($article->getCategory() == 'Фильмы') ? 'movies' : ( ($article->getCategory() == 'Книги') ? 'books' : 'games' );
         
         return $this->render('articles/show.html.twig', [
-            'article' => $article
+            'article' => $article,
+            'category' => $category
+        ]);
+    }
+
+    #[Route('/articles/{category<movies|books|games>}', methods: ['GET'], name: 'app_articles_category')]
+    public function categoryShow(string $category, Request $request, PaginatorInterface $paginator): Response
+    {
+        $category = ($category == 'movies') ? 'Фильмы' : ( ($category == 'books') ? 'Книги' : 'Игры' );
+        $articlesQuery = $this->articleRepository->findByCategory($category);
+        
+        $articles = $paginator->paginate(
+            $articlesQuery,
+            $request->query->getInt('page', 1),
+            6
+        );
+        
+        return $this->render('articles/category.html.twig', [
+            'articles' => $articles,
+            'category' => $category
         ]);
     }
 

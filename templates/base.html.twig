@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>{% block title %}Mini Blog{% endblock %}</title>
+        <title>{% block title %}Покемон блог{% endblock %}</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
@@ -31,15 +31,15 @@
                             </form>
                         </div>
                         <div class="col-4 site-logo">
-                            <a href="/" class="text-black h2 mb-0">Блог</a>
+                            <a href="/" class="text-black h2 mb-0"><img src="{{ asset('images/logo.png') }}"></a>
                         </div>
                         <div class="col-8 text-right">
                             <nav class="site-navigation" role="navigation">
                                 <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block mb-0">
-                                    <li><a href="category.html">Главная</a></li>
-                                    <li><a href="category.html">Фильмы</a></li>
-                                    <li><a href="category.html">Книги</a></li>
-                                    <li><a href="category.html">Игры</a></li>
+                                    <li><a href="{{ path('app_articles') }}">Главная</a></li>
+                                    <li><a href="{{ path('app_articles_category', {'category': 'movies'}) }}">Фильмы</a></li>
+                                    <li><a href="{{ path('app_articles_category', {'category': 'books'}) }}">Книги</a></li>
+                                    <li><a href="{{ path('app_articles_category', {'category': 'games'}) }}">Игры</a></li>
                                     {% if app.user %}
                                         <li><a href="{{ path('app_profile', {'id': app.user.getId()}) }}">Личный кабинет</a></li>
                                     {% endif %}

@@ -5,28 +5,7 @@
         <div class="container">
             <div class="row mb-5">
                 <div class="col-12">
-                    <h2>Лучшие обзоры</h2>
-                </div>
-            </div>
-            <div class="row align-items-stretch retro-layout-2">
-                {% for bestArticle in bestArticles %}
-                    <div class="col-md-4">
-                        <a href="{{ path('app_article_show', {'id': bestArticle.getId()}) }}" class="h-entry mb-30 v-height gradient" style="background-image: url('{{ bestArticle.getImagePath() }}');">
-                            <div class="text">
-                                <h2>{{ bestArticle.getTitle() }}</h2>
-                                <span class="date">{{ bestArticle.createdAt()|date("m/d/Y") }}</span>
-                            </div>
-                        </a>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-    <div class="site-section">
-        <div class="container">
-            <div class="row mb-5">
-                <div class="col-12">
-                    <h2>Свежие обзоры</h2>
+                    <h2>{{ category }}</h2>
                 </div>
             </div>
             <div class="row">
