@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
+use App\Repository\CommentRepository;
 use App\Repository\UserRepository;
 use App\Form\ArticleCreateFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -45,13 +46,15 @@ class ArticlesController extends AbstractController
     }
 
     #[Route('/article/{id<\d+>}', methods: ['GET'], name: 'app_article_show')]
-    public function show($id): Response
+    public function show($id, CommentRepository $commentsRepository): Response
     {
         $article = $this->articleRepository->find($id);
+        $comments = $commentsRepository->findBy(['article' => $id], ['created_at' => 'ASC']);
         $category = ($article->getCategory() == 'Фильмы') ? 'movies' : ( ($article->getCategory() == 'Книги') ? 'books' : 'games' );
         
         return $this->render('articles/show.html.twig', [
             'article' => $article,
+            'comments' => $comments,
             'category' => $category
         ]);
     }
@@ -154,4 +157,5 @@ class ArticlesController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
     }
+
 }
