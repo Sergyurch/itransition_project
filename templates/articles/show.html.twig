@@ -33,26 +33,28 @@
 
                     {% if app.user %}
                         <div class="pt-5">
+                            <h3 class="mb-5" id="comments-header">
+                                {% if comments|length > 0 %}
+                                    Комментарии
+                                {% endif %}
+                            </h3>
+                            <ul class="comment-list">
 
-                            {% if comments|length > 0 %}
-                                <h3 class="mb-5">Комментарии</h3>
-                                <ul class="comment-list">
+                                {% for comment in comments %}
+                                    <li class="comment">
+                                        <div class="vcard">
+                                            <img src="{{ comment.getUser().getProfileImage() }}" alt="Image placeholder">
+                                        </div>
+                                        <div class="comment-body">
+                                            <h3>{{ comment.getUser().getFullName() }}</h3>
+                                            <div class="meta">{{ comment.getCreatedAt()|format_datetime(pattern="yyyy-MM-dd hh:mm:ss") }}</div>
+                                            <p>{{ comment.getText() }}</p>
+                                        </div>
+                                    </li>
+                                {% endfor %}
 
-                                    {% for comment in comments %}
-                                        <li class="comment">
-                                            <div class="vcard">
-                                                <img src="{{ comment.getUser().getProfileImage() }}" alt="Image placeholder">
-                                            </div>
-                                            <div class="comment-body">
-                                                <h3>{{ comment.getUser().getFullName() }}</h3>
-                                                <div class="meta">{{ comment.getCreatedAt()|format_datetime(pattern="yyyy-MM-dd hh:mm:ss") }}</div>
-                                                <p>{{ comment.getText() }}</p>
-                                            </div>
-                                        </li>
-                                    {% endfor %}
-
-                                </ul>
-                            {% endif %}
+                            </ul>
+                            
 
                             <div class="comment-form-wrap pt-5">
                                 <h3 class="mb-5">Оставить комментарий</h3>
@@ -82,42 +84,47 @@
             </div>
         </div>
     </section>
+{% endblock %}
+
+{% block script %}
     {% if app.user %}
         <script>
-            $("#submit").click( function() {
-                let message = $("#message").val();
-                
-                $.post( 
-                    $("#form").attr("action"),
-                    {text: message, articleId: {{ article.getId() }}, userId: {{ app.user.getId() }}},
-                    function(response){
-                        if (response.length > 0) {
-                            $(".comment-list").empty();
-                        }
+            $(document).ready(function(){
+                $("#submit").click( function() {
+                    let message = $("#message").val();
+                    
+                    $.post( 
+                        $("#form").attr("action"),
+                        {text: message, articleId: {{ article.getId() }}, userId: {{ app.user.getId() }}},
+                        function(response){
+                            if (response.length > 0) {
+                                $(".comment-list").empty();
+                                $("#comments-header").text("Комментарии");
+                            }
 
-                        for (let comment of response) {
-                            $(".comment-list").append(`
-                                <li class="comment">
-                                    <div class="vcard">
-                                        <img src="${comment.userPhoto}" alt="Image placeholder">
-                                    </div>
-                                    <div class="comment-body">
-                                        <h3>${comment.userName}</h3>
-                                        <div class="meta">${comment.commentDate}</div>
-                                        <p>${comment.commentText}</p>
-                                    </div>
-                                </li>
-                            `);
+                            for (let comment of response) {
+                                $(".comment-list").append(`
+                                    <li class="comment">
+                                        <div class="vcard">
+                                            <img src="${comment.userPhoto}" alt="Image placeholder">
+                                        </div>
+                                        <div class="comment-body">
+                                            <h3>${comment.userName}</h3>
+                                            <div class="meta">${comment.commentDate}</div>
+                                            <p>${comment.commentText}</p>
+                                        </div>
+                                    </li>
+                                `);
+                            }
                         }
-                    }
-                );
+                    );
 
-                $("#message").val("");
-                
-                $("#form").submit( function() {
-                    return false;  
+                    $("#message").val("");
+                    
+                    $("#form").submit( function() {
+                        return false;  
+                    });
                 });
-
             });
         </script>
     {% endif %}

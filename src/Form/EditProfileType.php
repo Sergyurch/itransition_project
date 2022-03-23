@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\Length;
 
-class EditProfileFormType extends AbstractType
+class EditProfileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

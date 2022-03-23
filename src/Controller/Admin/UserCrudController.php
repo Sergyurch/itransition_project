@@ -37,7 +37,7 @@ class UserCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Пользователя')
+            // ->setEntityLabelInSingular('Пользователя')
             ->setEntityLabelInPlural('Пользователи')
             ->setSearchFields(['full_name'])
             ->setDefaultSort(['id' => 'ASC'])

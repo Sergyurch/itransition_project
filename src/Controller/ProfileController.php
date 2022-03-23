@@ -7,27 +7,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Form\EditProfileFormType;
+use App\Form\EditProfileType;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\FileUploader;
 
 class ProfileController extends AbstractController
 {
-    private $userRepository;
-
-    public function __construct(UserRepository $userRepository)
-    {
-        $this->userRepository = $userRepository;
-    }
-
     #[Route('/profile/{id}', name: 'app_profile')]
-    public function index(int $id): Response
+    public function index(int $id, UserRepository $userRepository): Response
     {
         
         if ( $id == $this->getUser()->getId() || $this->isGranted('ROLE_ADMIN') ) {
             return $this->render('profile/index.html.twig', [
-                'user' => $this->userRepository->find($id) //$this->getUser()
+                'user' => $userRepository->find($id)
             ]);
         } else {
             return $this->redirectToRoute('app_login');
@@ -36,16 +29,15 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/profile/edit/{id}', name: 'app_profile_edit')]
-    public function edit(int $id, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
+    public function edit(int $id, UserRepository $userRepository, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         
         if ( $id == $this->getUser()->getId() || $this->isGranted('ROLE_ADMIN') ) {
-            $user = $this->userRepository->find($id);
-            $form = $this->createForm(EditProfileFormType::class, $user);
+            $user = $userRepository->find($id);
+            $form = $this->createForm(EditProfileType::class, $user);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                // encode the plain password
                 if ( $form->get('plainPassword')->getData() != null ) { 
                     $user->setPassword(
                         $userPasswordHasher->hashPassword(
@@ -65,8 +57,7 @@ class ProfileController extends AbstractController
     
                 $entityManager->persist($user);
                 $entityManager->flush();
-                // do anything else you need here, like send an email
-    
+                    
                 return $this->redirectToRoute('app_profile', ['id' => $user->getId()]);
             }
 
@@ -81,9 +72,9 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/profile/articles/{id}', name: 'app_profile_articles')]
-    public function showArticles(int $id): Response
+    public function showArticles(int $id, UserRepository $userRepository): Response
     {
-        $user = $this->userRepository->find($id);
+        $user = $userRepository->find($id);
 
         if ( $id == $this->getUser()->getId() || $this->isGranted('ROLE_ADMIN') ) {
             return $this->render('profile/articles.html.twig', [

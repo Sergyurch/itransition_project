@@ -6,7 +6,7 @@ use App\Entity\Article;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
 use App\Repository\UserRepository;
-use App\Form\ArticleCreateFormType;
+use App\Form\ArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,21 +17,11 @@ use Knp\Component\Pager\PaginatorInterface;
 
 class ArticlesController extends AbstractController
 {
-    private $articleRepository;
-    private $userRepository;
-
-    public function __construct(ArticleRepository $articleRepository, UserRepository $userRepository, EntityManagerInterface $entityManager)
-    {
-        $this->articleRepository = $articleRepository;
-        $this->userRepository = $userRepository;
-        $this->entityManager = $entityManager;
-    }
-
     #[Route('/', methods: ['GET'], name: 'app_articles')]
-    public function index(Request $request, PaginatorInterface $paginator): Response
+    public function index(Request $request, PaginatorInterface $paginator, ArticleRepository $articleRepository): Response
     {
-        $allArticlesQuery = $this->articleRepository->createQueryBuilder('a')->orderBy('a.created_at', 'DESC')->getQuery();
-        $bestArticles = $this->articleRepository->getBestArticles();
+        $allArticlesQuery = $articleRepository->createQueryBuilder('a')->orderBy('a.created_at', 'DESC')->getQuery();
+        $bestArticles = $articleRepository->getBestArticles();
 
         $articles = $paginator->paginate(
             $allArticlesQuery,
@@ -46,9 +36,9 @@ class ArticlesController extends AbstractController
     }
 
     #[Route('/article/{id<\d+>}', methods: ['GET'], name: 'app_article_show')]
-    public function show($id, CommentRepository $commentsRepository): Response
+    public function show($id, CommentRepository $commentsRepository, ArticleRepository $articleRepository): Response
     {
-        $article = $this->articleRepository->find($id);
+        $article = $articleRepository->find($id);
         $comments = $commentsRepository->findBy(['article' => $id], ['created_at' => 'ASC']);
         $category = ($article->getCategory() == 'Фильмы') ? 'movies' : ( ($article->getCategory() == 'Книги') ? 'books' : 'games' );
         
@@ -60,10 +50,10 @@ class ArticlesController extends AbstractController
     }
 
     #[Route('/articles/{category<movies|books|games>}', methods: ['GET'], name: 'app_articles_category')]
-    public function categoryShow(string $category, Request $request, PaginatorInterface $paginator): Response
+    public function categoryShow(string $category, Request $request, PaginatorInterface $paginator, ArticleRepository $articleRepository): Response
     {
         $category = ($category == 'movies') ? 'Фильмы' : ( ($category == 'books') ? 'Книги' : 'Игры' );
-        $articlesQuery = $this->articleRepository->findByCategory($category);
+        $articlesQuery = $articleRepository->findByCategory($category);
         
         $articles = $paginator->paginate(
             $articlesQuery,
@@ -78,12 +68,12 @@ class ArticlesController extends AbstractController
     }
 
     #[Route('/article/create/{userId<\d+>}', name: 'app_article_create')]
-    public function create($userId, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
+    public function create($userId, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader, UserRepository $userRepository): Response
     {
 
         if ( $userId == $this->getUser()->getId() || $this->isGranted('ROLE_ADMIN') ) {
             $article = new Article();
-            $form = $this->createForm(ArticleCreateFormType::class, $article);
+            $form = $this->createForm(ArticleType::class, $article);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -91,7 +81,7 @@ class ArticlesController extends AbstractController
                 $filePath = $fileUploader->uploadImageToCloudinary($articleImageFile, 'images');
                 $article->setImagePath($filePath);
                 $article->setCreatedAt(new \DateTime("now"));
-                $article->setAuthor($this->userRepository->find($userId));
+                $article->setAuthor($userRepository->find($userId));
                 
                 $entityManager->persist($article);
                 $entityManager->flush();
@@ -108,13 +98,13 @@ class ArticlesController extends AbstractController
     }
 
     #[Route('/article/edit/{id<\d+>}', name: 'app_article_edit')]
-    public function edit($id, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
+    public function edit($id, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader, ArticleRepository $articleRepository): Response
     {
 
-        $article = $this->articleRepository->find($id);
+        $article = $articleRepository->find($id);
 
         if ( $article->getAuthor()->getId() == $this->getUser()->getId() || $this->isGranted('ROLE_ADMIN') ) {
-            $form = $this->createForm(ArticleCreateFormType::class, $article);
+            $form = $this->createForm(ArticleType::class, $article);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -143,9 +133,9 @@ class ArticlesController extends AbstractController
     }
 
     #[Route('/article/delete/{id<\d+>}', name: 'app_article_delete')]
-    public function delete($id, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
+    public function delete($id, EntityManagerInterface $entityManager, FileUploader $fileUploader, ArticleRepository $articleRepository): Response
     {
-        $article = $this->articleRepository->find($id);
+        $article = $articleRepository->find($id);
         
         if ( $article->getAuthor()->getId() == $this->getUser()->getId() || $this->isGranted('ROLE_ADMIN') ) {
             $fileUploader->destroyImageCloudinary($article->getImagePath());
