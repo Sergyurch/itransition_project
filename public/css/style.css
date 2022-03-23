@@ -6655,6 +6655,10 @@ h1, h2, h3, h4, h5,
   .custom-pagination a:hover {
     background: #2f89fc; }
 
+.custom-pagination .pagination {
+  display: inline-block;
+}
+
  .slide-one-item {
   position: relative;
   z-index: 1; }
