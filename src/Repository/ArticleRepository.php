@@ -65,6 +65,19 @@ class ArticleRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getSearchQuery($needle)
+    {
+        return $this->createQueryBuilder('article')
+            ->leftJoin('article.comments', 'comments')
+            ->andWhere('REGEXP(article.title, :expr) = 1
+                OR REGEXP(article.text, :expr) = 1
+                OR REGEXP(comments.text, :expr) = 1')
+            ->orderBy('article.created_at', 'DESC')
+            ->setParameter('expr', $needle)
+            ->getQuery();
+
+    }
+
     // /**
     //  * @return Article[] Returns an array of Article objects
     //  */

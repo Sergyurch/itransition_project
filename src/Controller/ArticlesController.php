@@ -151,21 +151,13 @@ class ArticlesController extends AbstractController
     #[Route('/articles/search', name: 'app_articles_search')]
     public function search(Request $request, ArticleRepository $articleRepository, PaginatorInterface $paginator): Response
     {
-        $search = $request->query->get('text');
-        // dd($search);
-
-        $articles = $articleRepository
-            ->createQueryBuilder('article')
-            ->leftJoin('article.comments', 'comments')
-            ->andWhere('article.title like :expr
-                OR article.text like :expr
-                OR comments.text like :expr')
-            ->orderBy('article.created_at', 'DESC')
-            ->setParameter('expr','%Джек%')
-            ->getQuery();
+        $needle = $request->query->get('text');
+        $needle = preg_replace('/\s+/', '|', trim($needle));
+        
+        $searchQuery = $articleRepository->getSearchQuery($needle);
         
         $articles = $paginator->paginate(
-            $articles,
+            $searchQuery,
             $request->query->getInt('page', 1),
             6
         );
