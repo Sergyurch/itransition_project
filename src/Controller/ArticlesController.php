@@ -148,4 +148,31 @@ class ArticlesController extends AbstractController
         }
     }
 
+    #[Route('/articles/search', name: 'app_articles_search')]
+    public function search(Request $request, ArticleRepository $articleRepository, PaginatorInterface $paginator): Response
+    {
+        $search = $request->query->get('text');
+        // dd($search);
+
+        $articles = $articleRepository
+            ->createQueryBuilder('article')
+            ->leftJoin('article.comments', 'comments')
+            ->andWhere('article.title like :expr
+                OR article.text like :expr
+                OR comments.text like :expr')
+            ->orderBy('article.created_at', 'DESC')
+            ->setParameter('expr','%Джек%')
+            ->getQuery();
+        
+        $articles = $paginator->paginate(
+            $articles,
+            $request->query->getInt('page', 1),
+            6
+        );
+        
+        return $this->render('articles/search.html.twig', [
+            'articles' => $articles,
+        ]);
+    }
+
 }

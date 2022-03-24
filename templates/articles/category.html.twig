@@ -5,7 +5,9 @@
         <div class="container">
             <div class="row mb-5">
                 <div class="col-12">
-                    <h2>{{ category }}</h2>
+                    {% block categoryTitle %}
+                        <h2>{{ category }}</h2>
+                    {% endblock %}
                 </div>
             </div>
             <div class="row">
