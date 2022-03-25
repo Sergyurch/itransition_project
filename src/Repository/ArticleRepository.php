@@ -69,9 +69,9 @@ class ArticleRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('article')
             ->leftJoin('article.comments', 'comments')
-            ->andWhere('REGEXP(article.title, :expr) = 1
-                OR REGEXP(article.text, :expr) = 1
-                OR REGEXP(comments.text, :expr) = 1')
+            ->andWhere('REGEXP(lower(article.title), :expr) = 1
+                OR REGEXP(lower(article.text), :expr) = 1
+                OR REGEXP(lower(comments.text), :expr) = 1')
             ->orderBy('article.created_at', 'DESC')
             ->setParameter('expr', $needle)
             ->getQuery();
