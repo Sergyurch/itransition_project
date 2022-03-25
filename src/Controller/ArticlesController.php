@@ -153,7 +153,8 @@ class ArticlesController extends AbstractController
     {
         $needle = $request->query->get('text');
         $needle = preg_replace('/\s+/', '|', trim($needle));
-        
+        $needle = mb_strtolower($needle);
+                
         $searchQuery = $articleRepository->getSearchQuery($needle);
         
         $articles = $paginator->paginate(
