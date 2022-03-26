@@ -12,7 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 
 class DashboardController extends AbstractDashboardController
 {
-    #[Route('/admin', name: 'admin')]
+    #[Route('/{_locale<%app.supported_locales%>}/admin', name: 'admin')]
     public function index(): Response
     {
         // return parent::index();

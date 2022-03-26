@@ -1,22 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Редактирование обзора{% endblock %}
+{% block title %}{{ 'Редактирование обзора'|trans }}{% endblock %}
 
 {% block body %}
     <div class="site-section bg-light">
         <div class="container">
-            <h1 class="text-center h2 mb-5">Редактирование обзора</h1>
+            <h1 class="text-center h2 mb-5">{{ 'Редактирование обзора'|trans }}</h1>
 
             {{ form_start(articleEditForm) }}
                 <div class="row justify-content-center">
                     {{ form_row(articleEditForm.title, {
-                        label: 'Название обзора',
+                        label: 'Название обзора'|trans,
                         attr: {class: 'form-control'}
                     }) }}
                 </div>
                  <div class="row justify-content-center">
                     {{ form_row(articleEditForm.text, {
-                        label: 'Текст обзора',
+                        label: 'Текст обзора'|trans,
                         attr: {
                             class: 'form-control',
                             rows: 10
@@ -25,27 +25,27 @@
                 </div>
                 <div class="row justify-content-center">
                     {{ form_row(articleEditForm.category, {
-                        label: 'Категория',
+                        label: 'Категория'|trans,
                         attr: {class: 'form-control'}
                     }) }}
                 </div>
                 <div class="row justify-content-center">
                     {{ form_row(articleEditForm.author_rating, {
-                        label: 'Рейтинг',
+                        label: 'Рейтинг'|trans,
                         attr: {class: 'form-control'}
                     }) }}
                 </div>
                 <div class="row justify-content-center">
                     <div class="mb-3 col-md-7">
                         {{ form_row(articleEditForm.image_path, {
-                            label: 'Загрузите или перетяните файл',
+                            label: 'Загрузите или перетяните файл'|trans,
                             required: false
                         }) }}
                     </div>
                 </div>
                 <div class="row justify-content-center">
                     <div class="mb-3 col-md-7 text-center">
-                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                        <button type="submit" class="btn btn-primary">{{ 'Сохранить'|trans }}</button>
                     </div>
                 </div>
             {{ form_end(articleEditForm) }}

@@ -1,26 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Редактирование личных данных{% endblock %}
+{% block title %}{{ 'Редактирование личных данных'|trans }}{% endblock %}
 
 {% block body %}
 <div class="site-section bg-light">
     <div class="container">
         {% if is_granted('ROLE_ADMIN') %}
-            <h2 class="text-center mb-5">Редактирование личных данных юзера {{ user.getFullName() }}</h2>
+            <h2 class="text-center mb-5">{{ 'Редактирование личных данных юзера'|trans }} {{ user.getFullName() }}</h2>
         {% else %}
-            <h1 class="text-center h2 mb-5">Редактирование личных данных</h1>
+            <h1 class="text-center h2 mb-5">{{ 'Редактирование личных данных'|trans }}</h1>
         {% endif %}
         
         {{ form_start(editForm) }}
             <div class="row justify-content-center">
                 {{ form_row(editForm.full_name, {
-                    label: 'Полное имя',
+                    label: 'Полное имя'|trans,
                     attr: {class: 'form-control'}
                 }) }}
             </div>
             <div class="row justify-content-center">
                 {{ form_row(editForm.plainPassword, {
-                    label: 'Пароль',
+                    label: 'Пароль'|trans,
                     required: false,
                     attr: {class: 'form-control'}
                 }) }}
@@ -28,13 +28,13 @@
             <div class="row justify-content-center">
                 <div class="mb-3 col-md-7">
                     {{ form_row(editForm.profile_image, {
-                        label: 'Загрузите или перетяните файл'
+                        label: 'Загрузите или перетяните файл'|trans
                     }) }}
                 </div>
             </div>
             <div class="row justify-content-center">
                 <div class="mb-3 col-md-7 text-center">
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="submit" class="btn btn-primary">{{ 'Сохранить'|trans }}</button>
                 </div>
             </div>
         {{ form_end(editForm) }}

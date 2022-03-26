@@ -15,7 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class CommentsController extends AbstractController
 {
-    #[Route('/comment/create', name: 'app_comment_create')]
+    #[Route('/{_locale<%app.supported_locales%>}/comment/create', name: 'app_comment_create')]
     public function createComment(Request $request, UserRepository $userRepository, ArticleRepository $articleRepository, EntityManagerInterface $entityManager, CommentRepository $commentRepository): Response
     {
         $comment = new Comment();

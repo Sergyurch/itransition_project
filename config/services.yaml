@@ -6,6 +6,7 @@
 parameters:
     profile_image_directory: '%kernel.project_dir%/public/images/profile'
     image_directory: '%kernel.project_dir%/public/images'
+    app.supported_locales: 'en|ru'
 
 services:
     # default configuration for services in *this* file

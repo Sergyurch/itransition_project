@@ -6,7 +6,7 @@
             <div class="row mb-5">
                 <div class="col-12">
                     {% block categoryTitle %}
-                        <h2>{{ category }}</h2>
+                        <h2>{{ category|trans }}</h2>
                     {% endblock %}
                 </div>
             </div>
@@ -21,7 +21,7 @@
                             </a>
                         </div>
                         <div class="excerpt">
-                            <span class="post-category text-white {{ (article.getCategory() == 'Фильмы') ? 'bg-secondary' : (article.getCategory() == 'Книги') ? 'bg-success' : 'bg-warning' }} mb-3">{{ article.getCategory() }}</span>
+                            <span class="post-category text-white {{ (article.getCategory() == 'Фильмы') ? 'bg-secondary' : (article.getCategory() == 'Книги') ? 'bg-success' : 'bg-warning' }} mb-3">{{ article.getCategory()|trans }}</span>
                             <h2><a href="{{ path('app_article_show', {'id': article.getId()}) }}">{{ article.getTitle() }}</a></h2>
                             <div class="post-meta align-items-center text-left clearfix">
                                 <figure class="author-figure mb-0 mr-3 float-left">
@@ -31,7 +31,7 @@
                                 <span>&nbsp;-&nbsp; {{ article.createdAt()|date("m/d/Y") }}</span>
                             </div>
                             <p class="overflow-hidden aticle-text">{{ article.text }}</p>
-                            <p><a href="{{ path('app_article_show', {'id': article.getId()}) }}">Подробнее</a></p>
+                            <p><a href="{{ path('app_article_show', {'id': article.getId()}) }}">{{ 'Подробнее'|trans }}</a></p>
                         </div>
                     </div>
                 </div>

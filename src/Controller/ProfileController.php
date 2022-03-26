@@ -14,7 +14,7 @@ use App\Service\FileUploader;
 
 class ProfileController extends AbstractController
 {
-    #[Route('/profile/{id}', name: 'app_profile')]
+    #[Route('/{_locale<%app.supported_locales%>}/profile/{id}', name: 'app_profile')]
     public function index(int $id, UserRepository $userRepository): Response
     {
         
@@ -28,7 +28,7 @@ class ProfileController extends AbstractController
 
     }
 
-    #[Route('/profile/edit/{id}', name: 'app_profile_edit')]
+    #[Route('/{_locale<%app.supported_locales%>}/profile/edit/{id}', name: 'app_profile_edit')]
     public function edit(int $id, UserRepository $userRepository, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         
@@ -71,7 +71,7 @@ class ProfileController extends AbstractController
 
     }
 
-    #[Route('/profile/articles/{id}', name: 'app_profile_articles')]
+    #[Route('/{_locale<%app.supported_locales%>}/profile/articles/{id}', name: 'app_profile_articles')]
     public function showArticles(int $id, UserRepository $userRepository): Response
     {
         $user = $userRepository->find($id);

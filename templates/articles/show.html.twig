@@ -6,7 +6,7 @@
             <div class="row same-height justify-content-center">
                 <div class="col-md-12 col-lg-10">
                     <div class="post-entry text-center">
-                        <span class="post-category text-white bg-success mb-3">{{ article.getCategory() }}</span>
+                        <span class="post-category text-white bg-success mb-3">{{ article.getCategory()|trans }}</span>
                         <h1 class="mb-4">{{ article.getTitle() }}</h1>
                         <div class="post-meta align-items-center text-center">
                             <figure class="author-figure mb-0 mr-3 d-inline-block">
@@ -28,14 +28,14 @@
                         <p>{{ article.getText() }}</p>
                     </div>
                     <div class="pt-5">
-                        <p>Категория: <a href="{{ path('app_articles_category', {'category': category}) }}">{{ article.getCategory() }}</a></p>
+                        <p>Категория: <a href="{{ path('app_articles_category', {'category': category}) }}">{{ article.getCategory()|trans }}</a></p>
                     </div>
 
                     {% if app.user %}
                         <div class="pt-5">
                             <h3 class="mb-5" id="comments-header">
                                 {% if comments|length > 0 %}
-                                    Комментарии
+                                    {{ 'Комментарии'|trans }}
                                 {% endif %}
                             </h3>
                             <ul class="comment-list">
@@ -57,14 +57,14 @@
                             
 
                             <div class="comment-form-wrap pt-5">
-                                <h3 class="mb-5">Оставить комментарий</h3>
+                                <h3 class="mb-5">{{ 'Оставить комментарий'|trans }}</h3>
                                 <form action="{{ path('app_comment_create') }}" class="p-5 bg-light" id="form" method="POST">
                                     <div class="form-group">
-                                        <label for="message">Сообщение</label>
+                                        <label for="message">{{ 'Сообщение'|trans }}</label>
                                         <textarea name="" id="message" cols="30" rows="10" class="form-control"></textarea>
                                     </div>
                                     <div class="form-group">
-                                        <input type="submit" id="submit" value="Отправить" class="btn btn-primary">
+                                        <input type="submit" id="submit" value="{{ 'Отправить'|trans }}" class="btn btn-primary">
                                     </div>
                                 </form>
                                 <div id="response"></div>
@@ -99,7 +99,7 @@
                         function(response){
                             if (response.length > 0) {
                                 $(".comment-list").empty();
-                                $("#comments-header").text("Комментарии");
+                                $("#comments-header").text("{{ 'Комментарии'|trans }}");
                             }
 
                             for (let comment of response) {

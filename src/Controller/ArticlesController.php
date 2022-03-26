@@ -17,7 +17,13 @@ use Knp\Component\Pager\PaginatorInterface;
 
 class ArticlesController extends AbstractController
 {
-    #[Route('/', methods: ['GET'], name: 'app_articles')]
+    #[Route('/')]
+    public function indexNoLocale(): Response
+    {
+        return $this->redirectToRoute('app_articles', ['_locale' => 'ru']);
+    }
+
+    #[Route('/{_locale<%app.supported_locales%>}/', methods: ['GET'], name: 'app_articles')]
     public function index(Request $request, PaginatorInterface $paginator, ArticleRepository $articleRepository): Response
     {
         $allArticlesQuery = $articleRepository->createQueryBuilder('a')->orderBy('a.created_at', 'DESC')->getQuery();
@@ -35,7 +41,7 @@ class ArticlesController extends AbstractController
         ]);
     }
 
-    #[Route('/article/{id<\d+>}', methods: ['GET'], name: 'app_article_show')]
+    #[Route('/{_locale<%app.supported_locales%>}/article/{id<\d+>}', methods: ['GET'], name: 'app_article_show')]
     public function show($id, CommentRepository $commentsRepository, ArticleRepository $articleRepository): Response
     {
         $article = $articleRepository->find($id);
@@ -49,7 +55,7 @@ class ArticlesController extends AbstractController
         ]);
     }
 
-    #[Route('/articles/{category<movies|books|games>}', methods: ['GET'], name: 'app_articles_category')]
+    #[Route('/{_locale<%app.supported_locales%>}/articles/{category<movies|books|games>}', methods: ['GET'], name: 'app_articles_category')]
     public function categoryShow(string $category, Request $request, PaginatorInterface $paginator, ArticleRepository $articleRepository): Response
     {
         $category = ($category == 'movies') ? 'Фильмы' : ( ($category == 'books') ? 'Книги' : 'Игры' );
@@ -67,7 +73,7 @@ class ArticlesController extends AbstractController
         ]);
     }
 
-    #[Route('/article/create/{userId<\d+>}', name: 'app_article_create')]
+    #[Route('/{_locale<%app.supported_locales%>}/article/create/{userId<\d+>}', name: 'app_article_create')]
     public function create($userId, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader, UserRepository $userRepository): Response
     {
 
@@ -97,7 +103,7 @@ class ArticlesController extends AbstractController
         }
     }
 
-    #[Route('/article/edit/{id<\d+>}', name: 'app_article_edit')]
+    #[Route('/{_locale<%app.supported_locales%>}/article/edit/{id<\d+>}', name: 'app_article_edit')]
     public function edit($id, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader, ArticleRepository $articleRepository): Response
     {
 
@@ -132,7 +138,7 @@ class ArticlesController extends AbstractController
 
     }
 
-    #[Route('/article/delete/{id<\d+>}', name: 'app_article_delete')]
+    #[Route('/{_locale<%app.supported_locales%>}/article/delete/{id<\d+>}', name: 'app_article_delete')]
     public function delete($id, EntityManagerInterface $entityManager, FileUploader $fileUploader, ArticleRepository $articleRepository): Response
     {
         $article = $articleRepository->find($id);
@@ -148,7 +154,7 @@ class ArticlesController extends AbstractController
         }
     }
 
-    #[Route('/articles/search', name: 'app_articles_search')]
+    #[Route('/{_locale<%app.supported_locales%>}/articles/search', name: 'app_articles_search')]
     public function search(Request $request, ArticleRepository $articleRepository, PaginatorInterface $paginator): Response
     {
         $needle = $request->query->get('text');
