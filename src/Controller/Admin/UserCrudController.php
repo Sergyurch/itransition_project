@@ -55,6 +55,7 @@ class UserCrudController extends AbstractCrudController
     return $actions
         ->add(Crud::PAGE_INDEX, $viewUser)
         ->remove(Crud::PAGE_INDEX, Action::EDIT)
+        ->remove(Crud::PAGE_INDEX, Action::NEW)
     ;
 }
 
