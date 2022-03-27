@@ -29,10 +29,10 @@
                                 <button class="search-btn" type="submit"><span class="icon-search"></span></button>
                             </form>
                         </div>
-                        <div class="col-4 site-logo">
+                        <div class="col-2 site-logo">
                             <a href="/" class="text-black h2 mb-0"><img src="{{ asset('images/logo.png') }}"></a>
                         </div>
-                        <div class="col-8 text-right">
+                        <div class="col-10 text-right">
                             <nav class="site-navigation" role="navigation">
                                 <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block mb-0">
                                     <li><a href="{{ path('app_articles') }}">{{ 'Главная'|trans }}</a></li>
@@ -58,6 +58,7 @@
                                             <li><a class="dropdown-item" href="{{ path('app_articles', {_locale: 'ru'}) }}">Русский</a></li>
                                         </ul>
                                     </li>
+                                    <li class="d-lg-inline-block"><a href="#" class="js-toggle-theme"><span class="icon-adjust"></span></a></li>
                                     <li class="d-lg-inline-block"><a href="#" class="js-search-toggle"><span class="icon-search"></span></a></li>
                                 </ul>
                             </nav>
@@ -84,9 +85,14 @@
             </div>
         </div>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
         
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+        
         <script src="{{ asset('js/jquery-migrate-3.0.1.min.js+jquery-ui.js+popper.min.js.pagespeed.js') }}"></script>
         <script>eval(mod_pagespeed_3UHT1mdFHo);</script>
         <script>eval(mod_pagespeed_eVrI9UNvs7);</script>
@@ -102,6 +108,22 @@
         <script>eval(mod_pagespeed_XfTLd8v2o_);</script>
         <script>eval(mod_pagespeed_t_McWJOk6o);</script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script>
+            $(document).ready(function(){
+                if ( localStorage.getItem("isDarkTheme") ) {
+                    $("body").addClass("dark-theme");
+                }
+
+                $(".js-toggle-theme").click( function() {
+                    $("body").toggleClass("dark-theme");
+
+                    if ( $("body").hasClass("dark-theme") ) {
+                        localStorage.setItem("isDarkTheme", true);
+                    }
+                });
+            });
+        
+        </script>
         {% block script %}{% endblock %}
     </body>
 </html>
