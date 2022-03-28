@@ -5,6 +5,11 @@
 {% block body %}
 <div class="site-section bg-light">
     <div class="container mb-5">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success text-center">
+                {{ message|trans }}
+            </div>
+        {% endfor %}
         <h1 class="text-center h2 mb-5">{{ 'Форма входа'|trans }}</h1>
         <form method="post">
             {% if error %}
