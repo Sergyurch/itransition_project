@@ -21,9 +21,9 @@ class FileUploader
 
         Configuration::instance([
             'cloud' => [
-                'cloud_name' => 'itransition-project', 
-                'api_key' => '254465488937493', 
-                'api_secret' => 'VKNdrXAmXgfunixxEDHWDzWKEBw'
+                'cloud_name' => '', 
+                'api_key' => '', 
+                'api_secret' => ''
             ]
         ]);
 
